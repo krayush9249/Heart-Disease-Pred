@@ -18,6 +18,10 @@ from sklearn.linear_model import LogisticRegression
 logreg = LogisticRegression(C=0.1)
 logreg.fit(X_train_scaled, y_train)
 
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors=11)
+knn.fit(X_train_scaled, y_train)
+
 from sklearn.model_selection import GridSearchCV
 
 # Creating the parameter grid -
@@ -39,15 +43,15 @@ print(grid_search.best_score_)
 print(grid_search.best_params_)
 
 
-base.roc_auc_curve_plot(logreg, X_test_scaled, y_test)
+base.roc_auc_curve_plot(knn, X_test_scaled, y_test)
 
     
-base.precision_recall_curve_plot(logreg, X_test_scaled, y_test)
+base.precision_recall_curve_plot(knn, X_test_scaled, y_test)
 
 
 # Let's choose a different threshold value
-threshold = 0.62
-preds = np.where(logreg.predict_proba(X_test_scaled)[:, 1] > threshold, 1, 0)
+threshold = 0.65
+preds = np.where(knn.predict_proba(X_test_scaled)[:, 1] > threshold, 1, 0)
 
 
 from sklearn.metrics import classification_report

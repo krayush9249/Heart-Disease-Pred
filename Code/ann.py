@@ -16,10 +16,10 @@ X_train, y_train =  base.splitter(train, y_var='target')
 X_test, y_test =  base.splitter(test, y_var='target')
 
 # Standardizing the data -
-X_train_scaled, X_test_scaled = base.standardizer(X_train, X_test)
+X_scaled, X_train_scaled, X_test_scaled = base.standardizer(X_train, X_test)
 
 model = keras.Sequential([
-                          keras.layers.Dense(units=128, input_shape=(13,), activation='relu'),
+                          keras.layers.Dense(units=128, input_shape=(11,), activation='relu'),
                           keras.layers.BatchNormalization(axis=1),
                           keras.layers.Dense(units=64, activation='relu'),
                           keras.layers.BatchNormalization(axis=1),
@@ -30,7 +30,7 @@ model = keras.Sequential([
                           keras.layers.Dense(units=1, activation='sigmoid')
                          ])
 
-adam=keras.optimizers.Adam(learning_rate=0.1)
+adam=keras.optimizers.Adam(learning_rate=0.0001)
 model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
 
 model.summary()

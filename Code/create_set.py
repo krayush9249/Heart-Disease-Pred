@@ -1,9 +1,9 @@
 
 import pandas as pd
-filepath = '/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/heart_disease_data.csv'
+filepath = '/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/final_data.csv'
 data = pd.read_csv(filepath)
 
-data.shape[0]
+data.shape
 
 X = data.drop('target', axis=1)
 y = data['target']
