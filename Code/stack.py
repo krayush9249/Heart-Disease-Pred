@@ -23,7 +23,7 @@ X_scaled, X_train_scaled, X_test_scaled = base.standardizer(X_train, X_test)
 
 from xgboost import XGBClassifier
 from sklearn.ensemble import AdaBoostClassifier, GradientBoostingClassifier
-from sklearn.ensemble import VotingClassifier
+from sklearn.ensemble import StackingClassifier
 
 # XGBoost Classifier 
 xgb_params = {}
@@ -37,13 +37,18 @@ ada = AdaBoostClassifier(**ada_params)
 gbc_params = {}
 gbc = GradientBoostingClassifier(**gbc_params)
 
-# Soft Voting Classifier 
 
-clfs = [('XGBoost', xgb), ('AdaBoost', ada), ('GradientBoosting', gbc)]
-vc = VotingClassifier(estimators=clfs, voting='soft')
+# Stacking Classifier -
+from sklearn.neighbors import KNeighborsClassifier
 
+estimator = [('XGBoost', xgb),
+             ('AdaBoost', ada),
+             ('GradientBoosting', gbc)]
 
-model = base.model_train(vc, X_train_scaled, y_train)
+stack = StackingClassifier(estimators=estimator, 
+                           final_estimator=KNeighborsClassifier(n_neighbors=11))
+
+model = base.model_train(stack, X_train_scaled, y_train)
 
 # Checking the model's performance -
 base.model_eval(model, X_train_scaled, X_test_scaled, y_train, y_test)
