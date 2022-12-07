@@ -19,7 +19,7 @@ train = pd.read_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/trai
 test = pd.read_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/test.csv')
 
 # Combining the train & test dataset -
-data = pd.conact([train, test], axis=0, inplace=True)
+data = pd.concat([train, test], axis=0)
 
 # Splitting the data -
 X, y = base.splitter(data)

@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def splitter(data, y_var):
+def splitter(data, y_var='target'):
 
    # Splitting the data into dependent & independent variables -
     X = data.drop(columns=y_var, axis=1).values
