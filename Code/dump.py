@@ -4,7 +4,7 @@ import pandas as pd
 import pickle
 import base
 from xgboost import XGBClassifier
-from catboost import CatBoostClassifier
+from sklearn.ensemble import AdaBoostClassifier, GradientBoostingClassifier
 from sklearn.ensemble import VotingClassifier
 
 
@@ -14,51 +14,40 @@ def model_dump(model_obj, filename):
         pickle.dump(model_obj, f) 
 
 
-# Loading the training dataset -
-train = pd.read_csv(r'..\Files\train.csv')
+# Loading the train & test dataset -
+train = pd.read_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/train.csv')
+test = pd.read_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/test.csv')
 
-X_train, y_train = base.splitter(train)
+# Combining the train & test dataset -
+data = pd.conact([train, test], axis=0, inplace=True)
 
-X_scaled, X_train_scaled, X_test_scaled = base.standardizer(X_train, y_train)
+# Splitting the data -
+X, y = base.splitter(data)
+
+# Standardizing the data - 
+X_scaled = base.standardize(X)
+
 
 if __name__ == '__main__':
     
-    # XGBoost Classifier -
-
-    # Final parameters -
-    
-    xgb_params = {'base_score': 0.5,
-                  'colsample_bytree': 0.6,
-                  'gamma': 0.1,
-                  'learning_rate': 0.15,
-                  'max_depth': 9,
-                  'min_child_weight': 3,
-                  'n_estimators': 100,
-                  'reg_alpha': 0.1,
-                  'reg_lambda': 10,
-                  'scale_pos_weight': 5,
-                  'subsample': 0.5}
+    # XGBoost Classifier 
+    xgb_params = {}
     xgb = XGBClassifier(**xgb_params) 
 
-    # CatBoost Classifier -
+    # AdaBoost Classifier 
+    ada_params = {}
+    ada = AdaBoostClassifier(**ada_params) 
+    
+    # Gradient Boosting Classifier
+    gbc_params = {}
+    gbc = GradientBoostingClassifier(**gbc_params)
 
-    # Final parameters -
-    cat_params = {'iterations': 10,
-                  'learning_rate': 0.65,
-                  'depth': 8,
-                  'loss_function': 'Logloss',
-                  'eval_metric': 'Recall',
-                  'subsample': 0.6,
-                  'l2_leaf_reg': 0.001,
-                  'scale_pos_weight': 2}
-    cat = CatBoostClassifier(**cat_params) 
+    # Soft Voting Classifier 
 
-    # Soft Voting Classifier -
-
-    clfs = [('XGBoost', xgb), ('CatBoost', cat)]
+    clfs = [('XGBoost', xgb), ('AdaBoost', ada), ('GradientBossting', gbc)]
     vc = VotingClassifier(estimators=clfs, voting='soft')
 
-    model_obj = base.model_train(vc, X_train_scaled, y_train)
+    model_obj = base.model_train(vc, X_scaled, y)
 
-    model_file = r'VotingClassifier.pkl'
+    model_file = '/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Model/VotingClassifier.pkl'
     model_dump(model_obj, model_file)

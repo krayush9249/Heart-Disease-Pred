@@ -25,6 +25,16 @@ def standardizer(X_train, X_test):
     X_scaled = np.concatenate([X_train_scaled, X_test_scaled], axis=0)
     return X_scaled, X_train_scaled, X_test_scaled
 
+
+def standardize(X):
+    
+    # Standardizing the data -
+    scaler = StandardScaler()
+
+    X_scaled = scaler.fit_transform(X)
+    return X_scaled
+
+
 def model_train(model_obj, X_train, y_train, **kwargs): 
 
     model_obj.fit(X_train, y_train, **kwargs)

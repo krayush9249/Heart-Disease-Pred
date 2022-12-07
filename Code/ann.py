@@ -47,6 +47,7 @@ _, test_acc = model.evaluate(X_test, y_test, batch_size=32, verbose=0)
 print('Train Accuracy: {:.3f}'.format(train_acc))
 print('Test Accuracy: {:.3f}'.format(test_acc))
 
+
 y_pred = model.predict(X_test, batch_size=32, verbose=0)
 y_pred_class = np.argmax(y_pred, axis=-1)
 
