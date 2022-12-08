@@ -48,3 +48,8 @@ model = base.model_train(vc, X_train_scaled, y_train)
 # Checking the model's performance -
 base.model_eval(model, X_train_scaled, X_test_scaled, y_train, y_test)
 base.cross_val(model, X_scaled, y, scoring='recall')
+
+
+base.precision_recall_curve_plot(model, X_test_scaled, y_test)
+
+base.roc_auc_curve_plot(model, X_test_scaled, y_test)
