@@ -30,7 +30,7 @@ model = keras.Sequential([
                           keras.layers.Dense(units=1, activation='sigmoid')
                          ])
 
-adam=keras.optimizers.Adam(learning_rate=0.0001)
+adam=keras.optimizers.Adam(learning_rate=0.001)
 model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
 
 model.summary()
@@ -75,6 +75,42 @@ plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
 plt.legend(loc='lower right')
 plt.grid(True)
+plt.show()
+
+    
+from sklearn.metrics import roc_auc_score, roc_curve
+
+logit_roc_auc = roc_auc_score(y_test, y_pred)
+fpr, tpr, thresholds = roc_curve(y_test, y_pred_class)
+
+plt.figure()
+plt.plot(fpr, tpr, label='(area = %0.2f)' % logit_roc_auc)
+plt.plot([0, 1], [0, 1],'r--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Receiver Operating Characteristic')
+plt.legend(loc="lower right")
+plt.show()
+
+
+from sklearn.metrics import precision_recall_curve
+    
+precisions, recalls, thresholds = precision_recall_curve(y_test, y_pred)
+
+threshold_boundary = thresholds.shape[0]
+
+# plot precision
+plt.plot(thresholds, precisions[0:threshold_boundary], label='precision')
+# plot recall
+plt.plot(thresholds, recalls[0:threshold_boundary], label='recalls')
+
+start, end = plt.xlim()
+plt.xticks(np.round(np.arange(start, end, 0.1), 2))
+
+plt.xlabel('Threshold Value'); plt.ylabel('Precision and Recall Value')
+plt.legend(); plt.grid()
 plt.show()
 
 

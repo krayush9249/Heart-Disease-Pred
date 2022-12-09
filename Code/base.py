@@ -87,7 +87,7 @@ def roc_auc_curve_plot(model_obj, X_test, y_test):
     fpr, tpr, thresholds = roc_curve(y_test, model_obj.predict_proba(X_test)[:,1])
     
     plt.figure()
-    plt.plot(fpr, tpr, label='Logistic Regression (area = %0.2f)' % logit_roc_auc)
+    plt.plot(fpr, tpr, label='(area = %0.2f)' % logit_roc_auc)
     plt.plot([0, 1], [0, 1],'r--')
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
