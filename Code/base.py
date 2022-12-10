@@ -1,4 +1,5 @@
 
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -70,7 +71,15 @@ def model_eval(model_obj, X_train, X_test, y_train, y_test):
     print("Sensitivity: {:.2f}".format(tpr))
     print("Specificity: {:.2f}\n".format(1-fpr))
     
+    return y_pred_test, y_pred_test_proba
     
+
+def show_pred(y_pred_test, y_pred_test_proba):
+    pred = pd.DataFrame({'Probability': y_pred_test_proba,
+                          'Class': y_pred_test})
+    print("\n", pred)
+    
+
 from sklearn.model_selection import KFold, cross_val_score
   
 def cross_val(model_obj, X, y, scoring='f1'):

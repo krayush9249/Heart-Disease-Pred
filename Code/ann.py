@@ -48,8 +48,13 @@ print('Train Accuracy: {:.3f}'.format(train_acc))
 print('Test Accuracy: {:.3f}'.format(test_acc))
 
 
-y_pred = model.predict(X_test, batch_size=32, verbose=0)
-y_pred_class = np.argmax(y_pred, axis=-1)
+y_pred_proba = model.predict(X_test, batch_size=32, verbose=0)
+print(y_pred_proba)
+
+# y_pred_class = np.argmax(y_pred, axis=-1)
+
+threshold = 0.90
+y_pred_class = np.where(y_pred_proba > threshold, 1, 0)
 
 
 from keras.utils.vis_utils import plot_model
@@ -80,7 +85,7 @@ plt.show()
     
 from sklearn.metrics import roc_auc_score, roc_curve
 
-logit_roc_auc = roc_auc_score(y_test, y_pred)
+logit_roc_auc = roc_auc_score(y_test, y_pred_proba)
 fpr, tpr, thresholds = roc_curve(y_test, y_pred_class)
 
 plt.figure()
@@ -97,7 +102,7 @@ plt.show()
 
 from sklearn.metrics import precision_recall_curve
     
-precisions, recalls, thresholds = precision_recall_curve(y_test, y_pred)
+precisions, recalls, thresholds = precision_recall_curve(y_test, y_pred_proba)
 
 threshold_boundary = thresholds.shape[0]
 
