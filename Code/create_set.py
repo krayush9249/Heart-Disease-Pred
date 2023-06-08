@@ -1,17 +1,17 @@
 
 import pandas as pd
-filepath = '/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/final_data.csv'
+filepath = r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/final_data_2.csv'
 data = pd.read_csv(filepath)
 
 data.shape
 
-X = data.drop('target', axis=1)
-y = data['target']
+X = data.drop('DISEASE', axis=1)
+y = data['DISEASE']
 
 from sklearn.model_selection import train_test_split
-train_ratio = 0.70
-test_ratio = 0.25
-val_ratio = 0.05
+train_ratio = 0.75
+test_ratio = 0.24
+val_ratio = 0.01
 
 X_train, x_test, y_train, y_test = train_test_split(X, y, 
                                                     test_size=1-train_ratio, shuffle=True, stratify=y, random_state=42)
@@ -30,9 +30,9 @@ test.head(3)
 valid = pd.concat([X_val, y_val], axis=1)
 valid.head(3)
 
-train.to_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/train.csv', index=False)
-test.to_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/test.csv', index=False)
-valid.to_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/val.csv', index=False)
+train.to_csv(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/train2.csv', index=False)
+test.to_csv(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/test2.csv', index=False)
+valid.to_csv(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/val2.csv', index=False)
 
 df = pd.concat([train, valid, test], axis=0)
 df.shape[0]

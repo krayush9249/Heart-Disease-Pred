@@ -6,54 +6,64 @@ import seaborn as sns
 import base
 import tensorflow as tf
 from tensorflow import keras
+from tensorflow.keras import regularizers
+
+import warnings
+warnings.simplefilter('ignore')
+
 
 # Loading the train & test data -
-train = pd.read_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/train.csv')
-test = pd.read_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/test.csv')
+train = pd.read_csv(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/train2.csv')
+test = pd.read_csv(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/test2.csv')
+
 
 # Splitting the data into independent & dependent variables -
-X_train, y_train =  base.splitter(train, y_var='target')
-X_test, y_test =  base.splitter(test, y_var='target')
+X_train, y_train =  base.splitter(train, y_var='DISEASE')
+X_test, y_test =  base.splitter(test, y_var='DISEASE')
+
 
 # Standardizing the data -
 X_scaled, X_train_scaled, X_test_scaled = base.standardizer(X_train, X_test)
 
+
 model = keras.Sequential([
-                          keras.layers.Dense(units=128, input_shape=(11,), activation='relu'),
+                          keras.layers.Dense(units=128, input_shape=(13,), activation='relu', kernel_regularizer=regularizers.l2(2.0)),
                           keras.layers.BatchNormalization(axis=1),
-                          keras.layers.Dense(units=64, activation='relu'),
+                          keras.layers.Dense(units=64, activation='relu', kernel_regularizer=regularizers.l2(3.0)),
                           keras.layers.BatchNormalization(axis=1),
-                          keras.layers.Dense(units=32, activation='relu'),
+                          keras.layers.Dense(units=32, activation='relu', kernel_regularizer=regularizers.l2(3.0)),
                           keras.layers.BatchNormalization(axis=1),
-                          keras.layers.Dense(units=16, activation='relu'),
+                          keras.layers.Dense(units=16, activation='relu', kernel_regularizer=regularizers.l2(3.0)),
                           keras.layers.BatchNormalization(axis=1),
-                          keras.layers.Dense(units=1, activation='sigmoid')
+                          keras.layers.Dense(units=1, activation='sigmoid', kernel_regularizer=regularizers.l2(3.0))
                          ])
 
-adam=keras.optimizers.Adam(learning_rate=0.001)
+
+adam=keras.optimizers.Adam(learning_rate=0.0001)
 model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
 
-model.summary()
+
+print(model.summary())
+
 
 es = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=1e-3, patience=10, mode='max', verbose=0)
 mc = tf.keras.callbacks.ModelCheckpoint(filepath='model.h5', save_best_only=True, save_weights_only=True)
 
-hist = model.fit(X_train, y_train, validation_data=(X_test, y_test), 
+
+hist = model.fit(X_train_scaled, y_train, validation_data=(X_test_scaled, y_test), 
                  epochs=100, batch_size=32, callbacks=[es, mc], verbose=1)
 
-_, train_acc = model.evaluate(X_train, y_train, batch_size=32, verbose=0)
-_, test_acc = model.evaluate(X_test, y_test, batch_size=32, verbose=0)
+
+_, train_acc = model.evaluate(X_train_scaled, y_train, batch_size=32, verbose=0)
+_, test_acc = model.evaluate(X_test_scaled, y_test, batch_size=32, verbose=0)
 
 print('Train Accuracy: {:.3f}'.format(train_acc))
 print('Test Accuracy: {:.3f}'.format(test_acc))
 
 
-y_pred_proba = model.predict(X_test, batch_size=32, verbose=0)
-print(y_pred_proba)
+y_pred_proba = model.predict(X_test_scaled, batch_size=32, verbose=0)
 
-# y_pred_class = np.argmax(y_pred, axis=-1)
-
-threshold = 0.90
+threshold = 0.60
 y_pred_class = np.where(y_pred_proba > threshold, 1, 0)
 
 
@@ -82,7 +92,7 @@ plt.legend(loc='lower right')
 plt.grid(True)
 plt.show()
 
-    
+
 from sklearn.metrics import roc_auc_score, roc_curve
 
 logit_roc_auc = roc_auc_score(y_test, y_pred_proba)
@@ -133,3 +143,11 @@ plt.show()
 from sklearn.metrics import classification_report
 print(classification_report(y_test, y_pred_class))
 
+
+# Saving the model -
+model_json = model.to_json()
+with open(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Model/ann_model.json', 'w') as json_file:
+    json_file.write(model_json)
+    
+# Serialize weights to HDF5 -
+model.save_weights(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Model/ann_model.h5')

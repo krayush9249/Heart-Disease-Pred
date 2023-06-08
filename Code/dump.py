@@ -15,8 +15,8 @@ def model_dump(model_obj, filename):
 
 
 # Loading the train & test dataset -
-train = pd.read_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/train.csv')
-test = pd.read_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/test.csv')
+train = pd.read_csv(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/train2.csv')
+test = pd.read_csv(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/test2.csv')
 
 # Combining the train & test dataset -
 data = pd.concat([train, test], axis=0)
@@ -49,5 +49,5 @@ if __name__ == '__main__':
 
     model_obj = base.model_train(vc, X_scaled, y)
 
-    model_file = '/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Model/VotingClassifier.pkl'
+    model_file = r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Model/VotingClassifier.pkl'
     model_dump(model_obj, model_file)

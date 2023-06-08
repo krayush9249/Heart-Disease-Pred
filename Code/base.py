@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def splitter(data, y_var='target'):
+def splitter(data, y_var='DISEASE'):
 
    # Splitting the data into dependent & independent variables -
     X = data.drop(columns=y_var, axis=1).values
@@ -56,11 +56,7 @@ def model_eval(model_obj, X_train, X_test, y_train, y_test):
     print("Recall: {:.2f}".format(recall_score(y_test, y_pred_test)))
     print("ROC AUC Score: {:.2f}".format(roc_auc_score(y_test, y_pred_test_proba)))
     
-    conmat = confusion_matrix(y_test, y_pred_test)
-    tp = conmat[0][0]
-    fp = conmat[0][1]
-    fn = conmat[1][0]
-    tn = conmat[1][1]
+    tn, fp, fn, tp = confusion_matrix(y_test, y_pred_test).ravel()
     tpr = tp/(tp+fn)
     tnr = tn/(fp+tn)
     fpr = fp/(tp+fn)
@@ -73,13 +69,13 @@ def model_eval(model_obj, X_train, X_test, y_train, y_test):
     
     return y_pred_test, y_pred_test_proba
     
-
+    
 def show_pred(y_pred_test, y_pred_test_proba):
     pred = pd.DataFrame({'Probability': y_pred_test_proba,
                           'Class': y_pred_test})
     print("\n", pred)
-    
 
+    
 from sklearn.model_selection import KFold, cross_val_score
   
 def cross_val(model_obj, X, y, scoring='f1'):
@@ -127,3 +123,5 @@ def precision_recall_curve_plot(model_obj, X_test, y_test):
     plt.xlabel('Threshold Value'); plt.ylabel('Precision and Recall Value')
     plt.legend(); plt.grid()
     plt.show()
+
+

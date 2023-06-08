@@ -2,11 +2,11 @@
 import pandas as pd
 
 
-path1 = '/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/data.csv'
-path2 = '/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/heart_cleveland_upload.csv'
-path3 = '/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/heart_ED.csv'
-path4 = '/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/statlog.csv'
-path5 = '/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/heart_statlog_cleveland_hungary_final.csv'
+path1 = r'C:/Users/ADMIN/Documents/GitHub/Heart-Disease-Prediction/Data/data.csv'
+path2 = r'C:/Users/ADMIN/Documents/GitHub/Heart-Disease-Prediction/Data/heart_cleveland_upload.csv'
+path3 = r'C:/Users/ADMIN/Documents/GitHub/Heart-Disease-Prediction/Data/heart_ED.csv'
+path4 = r'C:/Users/ADMIN/Documents/GitHub/Heart-Disease-Prediction/Data/statlog.csv'
+path5 = r'C:/Users/ADMIN/Documents/GitHub/Heart-Disease-Prediction/Data/heart_statlog_cleveland_hungary_final.csv'
 
 file1 = pd.read_csv(path1)
 file2 = pd.read_csv(path2)
@@ -83,5 +83,5 @@ print("No. of duplicate rows: ", dup_rows.shape[0])
 data = df.sample(frac=1, random_state=44)
 
 
-data.to_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/merge_data.csv', index=False)
+data.to_csv(r'C:/Users/ADMIN/Documents/GitHub/Heart-Disease-Prediction/Data/merge_data.csv', index=False)
 

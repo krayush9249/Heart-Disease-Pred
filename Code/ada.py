@@ -7,8 +7,8 @@ import numpy as np
 import base
 
 # Loading the train & test data -
-train = pd.read_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/train.csv')
-test = pd.read_csv('/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/test.csv')
+train = pd.read_csv(r'C:/Users/ADMIN/Documents/GitHub/Heart-Disease-Prediction/Data/train.csv')
+test = pd.read_csv(r'C:/Users/ADMIN/Documents/GitHub/Heart-Disease-Prediction/Data/test.csv')
 
 # Splitting the data into independent & dependent variables -
 X_train, y_train =  base.splitter(train, y_var='target')
