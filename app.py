@@ -50,7 +50,7 @@ It is important to note that the accuracy and reliability of the predictions gen
         ann_app()
         
     elif choice=="Metrics":
-        with open(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Model/exp.html', 'r',  encoding='utf-8') as f:
+        with open('exp.html', 'r',  encoding='utf-8') as f:
             html_content = f.read()
         st.components.v1.html(html_content, height=800)
         f.close()
