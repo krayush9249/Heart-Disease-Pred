@@ -14,8 +14,8 @@ warnings.simplefilter('ignore')
 
 
 # Loading the train & test data -
-train = pd.read_csv(r'C:\Users\piyus\OneDrive\Documents\Notebooks\Deployment\train2.csv')
-test = pd.read_csv(r'C:\Users\piyus\OneDrive\Documents\Notebooks\Deployment\test2.csv')
+train = pd.read_csv(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/train2.csv')
+test = pd.read_csv(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Data/test2.csv')
 
 
 # Splitting the data into independent & dependent variables -
@@ -167,7 +167,7 @@ attrib_info = """
 
 
 def load_model(model_file):
-    h5_file = h5py.File(r'C:\Users\piyus\OneDrive\Documents\Notebooks\Deployment\model.h5', 'r')
+    h5_file = h5py.File(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Model/model.h5', 'r')
     model = tf.keras.models.load_model(h5_file)
     return model
 

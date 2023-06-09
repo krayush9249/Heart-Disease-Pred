@@ -50,7 +50,7 @@ It is important to note that the accuracy and reliability of the predictions gen
         ann_app()
         
     elif choice=="Metrics":
-        with open(r'C:\Users\piyus\OneDrive\Documents\Notebooks\Deployment\exp.html', 'r',  encoding='utf-8') as f:
+        with open(r'/Users/kumarpersonal/Downloads/Heart-Disease-Pred/Model/exp.html', 'r',  encoding='utf-8') as f:
             html_content = f.read()
         st.components.v1.html(html_content, height=800)
         f.close()
@@ -94,7 +94,7 @@ Overall, selecting a project focused on heart disease prediction using ANN offer
 
 It is important to note that the future scope of the project will largely depend on data availability, technological advancements, collaborations with healthcare institutions, and the evolving landscape of healthcare and machine learning. However, by addressing these potential directions, the project can contribute to the development of more accurate and personalized approaches for heart disease prevention, management, and patient care.""")        
 
-        st.subheader("Created by : Fatima Zohra Mtech(Biotechlogy) NIT-W")
+        st.subheader("Created by : Fatima Zohra M.Tech (Biotechlogy), NIT Warangal")
 
 main()
 
