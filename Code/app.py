@@ -1,6 +1,6 @@
 import streamlit as st
 
-from model import ann_app
+from main import ann_app
 
 def main():
     st.title('Heart Disease Prediction using Artificial Neural Networks (ANN)')
